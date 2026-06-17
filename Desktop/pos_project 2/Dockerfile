@@ -57,3 +57,11 @@ EXPOSE 80
 # --- THE FIX: Safe Migration on Startup ---
 # This runs a fresh installation step or runs migrations ONLY if needed, preventing duplicate errors
 CMD php artisan migrate:status | grep -q "No migrations found" && php artisan migrate --force; apache2-foreground
+
+# ... (Keep everything else in the file exactly the same) ...
+
+EXPOSE 80
+
+# --- THE FOOLPROOF FIX ---
+# This tells Laravel to attempt to run migrations safely. If a table already exists, it gracefully moves on.
+CMD php artisan migrate --force; apache2-foreground
