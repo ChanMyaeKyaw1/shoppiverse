@@ -22,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'superAdminMiddleware'=>SuperAdminMiddleware::class,
             'authMiddleware'=>AuthenticatedMiddleware::class
         ]);
+
+        // --- ADD THIS LINE RIGHT HERE ---
+        // This tells Laravel 11 to trust Render's secure SSL load balancers
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
