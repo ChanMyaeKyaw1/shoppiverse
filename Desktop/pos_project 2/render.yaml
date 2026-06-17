@@ -1,0 +1,14 @@
+services:
+- type: web
+  name: shoppiverse
+  env: php
+  plan: free
+  buildCommand: composer install --no-dev --optimize-autoloader && npm install && npm run build
+  startCommand: heroku-php-apache2 public/
+  envVars:
+    - key: NODE_VERSION
+      value: 20
+    - key: APP_ENV
+      value: production
+    - key: APP_DEBUG
+      value: "false"
