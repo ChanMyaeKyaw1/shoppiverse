@@ -46,3 +46,14 @@ EXPOSE 80
 # --- THE FREE-TIER MIGRATION TRICK ---
 # This forces Laravel to build its database tables right as the container boots up, then starts Apache!
 CMD php artisan migrate --force && apache2-foreground
+
+# ... (all your top lines stay exactly the same) ...
+
+# Set permissions for Laravel storage and the database file
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+
+EXPOSE 80
+
+# --- THE FIX: Safe Migration on Startup ---
+# This runs a fresh installation step or runs migrations ONLY if needed, preventing duplicate errors
+CMD php artisan migrate:status | grep -q "No migrations found" && php artisan migrate --force; apache2-foreground
